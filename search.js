@@ -8,13 +8,11 @@ async function search() {
         return;
     }
 
-    // ✅ If user enters a full website, open it directly
     if (query.includes(".") || query.startsWith("http")) {
         openInBrowser(query.startsWith("http") ? query : "https://" + query);
         return;
     }
 
-    // ✅ Fetch Wikipedia summary for search query
     let wikipediaUrl = `https://en.wikipedia.org/api/rest_v1/page/summary/${encodeURIComponent(query)}`;
 
     try {
@@ -33,7 +31,6 @@ async function search() {
         resultsDiv.innerHTML += "<p style='color: red; font-weight: bold;'>No Wikipedia results found.</p>";
     }
 
-    // ✅ Fetch database results from Slycks Search
     try {
         const response = await fetch("https://raw.githubusercontent.com/ok0210/Slycks-search/main/data.json");
         if (!response.ok) throw new Error("Error fetching database.");
@@ -57,7 +54,6 @@ async function search() {
     }
 }
 
-// ✅ Function to ensure links open correctly based on the platform
 function openInBrowser(url) {
     if (window.location.href.includes("slycks-browser")) {
         fetch(`http://localhost:5000/open?url=${encodeURIComponent(url)}`);
@@ -66,7 +62,6 @@ function openInBrowser(url) {
     }
 }
 
-// ✅ Allow pressing "Enter" inside the search box
 function handleKeyPress(event) {
     if (event.key === "Enter") search();
 }
